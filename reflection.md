@@ -5,7 +5,18 @@
 **a. Initial design**
 
 - Briefly describe your initial UML design.
+
+Three core actions a user should be able to perform are seeing the daily tasks, adding tasks, and adding information.
+
 - What classes did you include, and what responsibilities did you assign to each?
+
+Owner class - this represents the person who owns the pet(s). The attributes this class would hold are name, email, phone, and pets. The methods it would have are adding pets, removing pets, and showing formatted contact details. 
+
+Pet class - represents the pet. The attributes it would have are name, species, breed, age, weight, and medical history. The methods it would have are showing a summary of the pet, adding a piece of information in the medical record, and updating weight.
+
+Appointment class - this represents a schedules event that gets added to the schedule. The attributes this class would hold are date, type, pet, provider, and notes. The methods it would hold are reschedule, cancel, and getting a summary.
+
+Caregiver class - this represents a vet, groomer, or sitter. It's attributes would be name, role, availability, and appointments. The methods it would hold are adding appointments, showing future appointments, and checking to see if a time slot is open.
 
 **b. Design changes**
 

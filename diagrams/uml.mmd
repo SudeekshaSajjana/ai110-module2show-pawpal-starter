@@ -1,15 +1,49 @@
 classDiagram
-    %% Replace the placeholders below with your actual classes, attributes, methods, and relationships.
-    %% Keep this file updated so it matches your final implementation.
+    %% PawPal Pet Care App — Class Diagram
 
-    class ClassName {
-        +type attribute
-        +method() returnType
+    class Owner {
+        +String name
+        +String email
+        +String phone
+        +List~Pet~ pets
+        +addPet(pet: Pet) void
+        +removePet(pet: Pet) void
+        +getContactInfo() String
     }
 
-    class AnotherClass {
-        +type attribute
-        +method() returnType
+    class Pet {
+        +String name
+        +String species
+        +String breed
+        +int age
+        +float weight
+        +List~String~ medicalHistory
+        +getProfile() String
+        +addMedicalRecord(record: String) void
+        +updateWeight(weight: float) void
     }
 
-    ClassName --> AnotherClass : relationship
+    class Appointment {
+        +String date
+        +String type
+        +Pet pet
+        +Caregiver provider
+        +String notes
+        +reschedule(newDate: String) void
+        +cancel() void
+        +getSummary() String
+    }
+
+    class Caregiver {
+        +String name
+        +String role
+        +List~String~ availability
+        +List~Appointment~ appointments
+        +scheduleAppointment(appointment: Appointment) void
+        +getUpcomingAppointments() List~Appointment~
+        +isAvailable(date: String) bool
+    }
+
+    Owner "1" --> "many" Pet : owns
+    Pet "1" --> "many" Appointment : scheduled for
+    Caregiver "1" --> "many" Appointment : handles
