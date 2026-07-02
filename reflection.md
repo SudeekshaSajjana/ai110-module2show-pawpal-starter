@@ -35,8 +35,12 @@ Caregiver class - this represents a vet, groomer, or sitter. It's attributes wou
 **b. Tradeoffs**
 
 - Describe one tradeoff your scheduler makes.
+
+One tradeoff that the scheduler was making was giving the user multiple warnings, which isn't sufficient and not organized. 
+
 - Why is that tradeoff reasonable for this scenario?
 
+This tradeoff is reasonable since it isn't a huge error that would cause the whole app to stop working, but rather an aesthetic issue that would make the app look cleaner if it was fixed.
 ---
 
 ## 3. AI Collaboration
