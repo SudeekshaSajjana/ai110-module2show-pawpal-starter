@@ -108,12 +108,46 @@ tests\test_pawpal.py ............            [100%]
 
 ## 📸 Demo Walkthrough
 
-Describe your app in numbered steps so a reader can follow along without watching a video:
+### UI features
 
-1. <!-- Describe this step -->
-2. <!-- Describe this step -->
-3. <!-- Describe this step -->
-4. <!-- Describe this step -->
-5. <!-- Add more steps as needed -->
+The Streamlit app (`app.py`) is organized into four sections:
 
-**Screenshot or video** *(optional)*: <!-- Insert a screenshot or link to a demo video here -->
+- **Owner** — enter a name, email, and phone number and click "Create Owner." Once created, the owner's contact info is displayed below the form.
+- **Add a Pet** — enter a pet's name, species, breed, age, and weight and click "Add Pet." Registered pets appear in a table as they're added.
+- **Schedule a Task** — pick a pet, describe the task, set a time and frequency (`daily`, `weekly`, or `monthly`), and click "Add Task" to attach it to that pet.
+- **Today's Schedule** — shows each pet's pending tasks sorted chronologically, surfaces any scheduling conflicts as warnings, and provides a "Mark Done" control to complete a task on the spot.
+
+### Example workflow
+
+1. Create an owner (e.g., "Jordan").
+2. Add a pet (e.g., "Mochi," a Shiba Inu).
+3. Schedule a task for Mochi — e.g., "Morning walk" at 8:00 AM, daily.
+4. Open "Today's Schedule" to see Mochi's task listed alongside any other pets' tasks, sorted by time.
+5. Click "Mark Done" on the task — the Scheduler marks it complete and, for daily/weekly tasks, automatically schedules the next occurrence.
+
+### Key Scheduler behaviors shown
+
+- **Sorting** — `sort_by_time()` orders every pet's task list chronologically, regardless of the order tasks were entered in.
+- **Conflict warnings** — `detect_conflicts()` displays a warning banner whenever two tasks for the same pet share the same time and date (e.g. two 6:00 PM tasks).
+- **Filtering** — `filter_tasks()` powers the pending-only view, so completed tasks drop out of the schedule automatically.
+- **Recurrence** — clicking "Mark Done" on a daily/weekly task calls `complete_task()`, which schedules that task's next occurrence behind the scenes.
+
+### Sample CLI output (`python main.py`)
+
+```
+==================================================
+  Conflict Detection
+==================================================
+  WARNING: Buddy has a time conflict at 6:00 PM on 2026-06-30 — "Evening walk" and "Feed dinner"
+
+==================================================
+  Today's Full Schedule (sorted by time)
+==================================================
+  [Pending] Morning walk at 7:00 AM on 2026-06-30 (daily)
+  [Pending] Feed breakfast at 8:00 AM on 2026-06-30 (daily)
+  [Pending] Feed breakfast at 8:30 AM on 2026-06-30 (daily)
+  [Pending] Clean litter box at 12:00 PM on 2026-06-30 (daily)
+  [Pending] Brush fur at 5:00 PM on 2026-06-30 (weekly)
+  [Pending] Evening walk at 6:00 PM on 2026-06-30 (daily)
+  [Pending] Feed dinner at 6:00 PM on 2026-06-30 (daily)
+```

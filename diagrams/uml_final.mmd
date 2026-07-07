@@ -1,0 +1,54 @@
+classDiagram
+    %% PawPal Pet Care App — Class Diagram (as implemented)
+
+    class Task {
+        +String description
+        +String time
+        +String frequency
+        +bool completed
+        +Optional~String~ date
+        +mark_complete() void
+        +reset() void
+        +get_summary() String
+    }
+
+    class Pet {
+        +String name
+        +String species
+        +String breed
+        +int age
+        +float weight
+        +List~Task~ tasks
+        +add_task(task: Task) void
+        +remove_task(task: Task) void
+        +get_pending_tasks() List~Task~
+        +get_profile() String
+    }
+
+    class Owner {
+        +String name
+        +String email
+        +String phone
+        +List~Pet~ pets
+        +add_pet(pet: Pet) void
+        +remove_pet(pet: Pet) void
+        +get_all_tasks() List~Task~
+        +get_contact_info() String
+    }
+
+    class Scheduler {
+        +Owner owner
+        +get_all_pending_tasks() List~Task~
+        +get_tasks_by_frequency(frequency: String) List~Task~
+        +get_tasks_for_pet(pet_name: String) List~Task~
+        +complete_task(pet_name: String, task_description: String) bool
+        -schedule_next(pet: Pet, task: Task) void
+        +get_daily_schedule() String
+        +detect_conflicts() List~String~
+        +sort_by_time(tasks: List~Task~) List~Task~
+        +filter_tasks(completed: bool, pet_names: List~String~) List~Task~
+    }
+
+    Owner "1" --> "many" Pet : owns
+    Pet "1" --> "many" Task : has
+    Scheduler "1" --> "1" Owner : operates on

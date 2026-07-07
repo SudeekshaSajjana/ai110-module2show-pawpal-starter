@@ -100,20 +100,45 @@ if st.session_state.owner is None or not st.session_state.owner.pets:
 else:
     scheduler = Scheduler(st.session_state.owner)
 
+    conflicts = scheduler.detect_conflicts()
+    if conflicts:
+        for warning in conflicts:
+            st.warning(warning)
+    else:
+        st.success("No scheduling conflicts detected.")
+
     for pet in st.session_state.owner.pets:
         st.markdown(f"**{pet.name}** ({pet.breed})")
-        pending = pet.get_pending_tasks()
+        pending = scheduler.sort_by_time(
+            scheduler.filter_tasks(completed=False, pet_names=[pet.name])
+        )
         if not pending:
-            st.caption("All tasks complete!")
-        else:
-            for task in pending:
-                col1, col2 = st.columns([4, 1])
-                with col1:
-                    st.write(task.get_summary())
-                with col2:
-                    if st.button("Done", key=f"{pet.name}_{task.description}"):
-                        scheduler.complete_task(pet.name, task.description)
-                        st.rerun()
+            st.success(f"{pet.name} has no pending tasks. All caught up!")
+            continue
+
+        st.table([
+            {
+                "Time": task.time,
+                "Task": task.description,
+                "Frequency": task.frequency.title(),
+                "Date": task.date or "—",
+            }
+            for task in pending
+        ])
+
+        col1, col2 = st.columns([3, 1])
+        with col1:
+            task_to_complete = st.selectbox(
+                "Mark a task complete",
+                [task.description for task in pending],
+                key=f"select_{pet.name}",
+            )
+        with col2:
+            st.write("")
+            if st.button("Mark Done", key=f"done_{pet.name}"):
+                scheduler.complete_task(pet.name, task_to_complete)
+                st.success(f"Marked '{task_to_complete}' complete for {pet.name}!")
+                st.rerun()
 
     st.divider()
     pending_count = len(scheduler.get_all_pending_tasks())
